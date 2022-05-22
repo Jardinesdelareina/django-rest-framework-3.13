@@ -7,7 +7,7 @@ from .models import *
 class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
-        fields = ('title', 'text', 'category')
+        fields = '__all__'
 
 
 ''' class BlogSerializer(serializers.Serializer):
