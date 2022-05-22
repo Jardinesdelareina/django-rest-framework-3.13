@@ -8,19 +8,30 @@ from .models import Blog
 
 
 class BlogAPIView(APIView):
+
+
     def get(self, request):
         blog = Blog.objects.all()
         return Response({'notes': BlogSerializer(blog, many=True).data})
 
+
     def post(self, request):
         serializer = BlogSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'note': serializer.data})
 
-        note_new = Blog.objects.create(
-            title=request.data['title'],
-            text=request.data['text'],
-            category=request.data['category']
-        )
 
-        return Response({'note': BlogSerializer(note_new).data})
-    
+    def put(self, request, *agrs, **kwargs):
+        pk = kwargs.get('pk', None)
+        if not pk:
+            return Response({'error': 'Method PUT not allowed'})
+        try:
+            instance = Blog.objects.get(pk=pk)
+        except:
+            return Response({'error': 'Object does not exists'})
+        
+        serializer = BlogSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'note': serializer.data})
