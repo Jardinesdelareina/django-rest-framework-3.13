@@ -1,8 +1,16 @@
+from dataclasses import field
 from rest_framework import serializers
 from .views import *
+from .models import *
 
 
-class BlogSerializer(serializers.Serializer):
+class BlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Blog
+        fields = ('title', 'text', 'category')
+
+
+''' class BlogSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=50)
     text = serializers.CharField(max_length=2000)
     created_at = serializers.DateTimeField(read_only=True)
@@ -23,3 +31,4 @@ class BlogSerializer(serializers.Serializer):
         instance.category = validated_data.get('category', instance.category)
         instance.save()
         return instance
+ '''

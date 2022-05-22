@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import BlogSerializer
@@ -6,8 +6,12 @@ from .models import Blog
 
 # Create your views here.
 
+class BlogAPIList(generics.ListCreateAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
 
-class BlogAPIView(APIView):
+
+''' class BlogAPIView(APIView):
 
 
     def get(self, request):
@@ -35,3 +39,4 @@ class BlogAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'note': serializer.data})
+ '''
