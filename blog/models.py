@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Blog(models.Model):
@@ -8,6 +9,7 @@ class Blog(models.Model):
     updated_at = models.DateTimeField('Обновлено', auto_now=True)
     is_published = models.BooleanField('Опубликовано', default=True)
     category = models.ForeignKey('Category', on_delete=models.PROTECT)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
