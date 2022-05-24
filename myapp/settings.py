@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from django.db import DEFAULT_DB_ALIAS
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -27,6 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     
 ]
 
@@ -119,7 +123,14 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',    # Отображение в браузере
     ],
-    'DEFAULT_PERMISSION_CLASSES': [                         # Ограничение доступа
-        'rest_framework.permission.AllowAny'                
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',              # Ограничение доступа на глобальном уровне
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',     # Аутентификация по токенам
+        'rest_framework.authentication.BasicAuthentication',     # Аутентификация по сессиям (есть по умолчанию)
+        'rest_framework.authentication.SessionAuthentication',   # Аутентификация по сессиям (есть по умолчанию)
     ]
 }
